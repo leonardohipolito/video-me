@@ -1,6 +1,6 @@
 'use strict'
 
-import {app, protocol, BrowserWindow} from 'electron'
+import {app, protocol, BrowserWindow, Menu, MenuItem} from 'electron'
 import {createProtocol} from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer'
 
@@ -16,7 +16,7 @@ async function createWindow() {
     const win = new BrowserWindow({
         width: 400,
         height: 400,
-        transparent:true,
+        transparent: true,
         frame: false,
         resizable: true,
         alwaysOnTop: true,
@@ -38,6 +38,33 @@ async function createWindow() {
         // Load the index.html when not in development
         win.loadURL('app://./index.html')
     }
+
+    const menu = new Menu()
+    menu.append(new MenuItem({
+        label: 'Zoom',
+        submenu: [{
+            role: 'In',
+            accelerator: process.platform === 'darwin' ? 'Alt+Cmd+=' : 'Ctrl+=',
+            click: () => {
+                win.webContents.send('zoom','in')
+            }
+        },
+        {
+            role: 'Out',
+            accelerator: process.platform === 'darwin' ? 'Alt+Cmd+-' : 'Ctrl+-',
+            click: () => {
+                win.webContents.send('zoom','out')
+            }
+        },{
+            role: 'Reset',
+            accelerator: process.platform === 'darwin' ? 'Alt+Cmd+0' : 'Ctrl+0',
+            click: () => {
+                win.webContents.send('zoom','reset')
+            }
+        }]
+    }))
+
+    Menu.setApplicationMenu(menu)
 }
 
 // Quit when all windows are closed.
