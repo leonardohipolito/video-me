@@ -63,6 +63,16 @@ async function createWindow() {
             }
         }]
     }))
+    menu.append(new MenuItem({
+        label: 'Video',
+        submenu: [{
+            role: 'Flip',
+            accelerator: process.platform === 'darwin' ? 'Alt+Cmd+/' : 'Ctrl+/',
+            click: () => {
+                win.webContents.send('flip')
+            }
+        }]
+    }))
 
     Menu.setApplicationMenu(menu)
 }

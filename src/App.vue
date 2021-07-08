@@ -12,8 +12,19 @@ export default {
   data() {
     return {
       transforms: {
-        scale: 1
+        scale: 1,
+        flip: true
       }
+    }
+  },
+  methods: {
+    applyTransforms() {
+      let transforms = []
+      transforms.push(`scale(${this.transforms.scale})`)
+      if (this.transforms.flip) {
+        transforms.push(`rotateY(180deg)`)
+      }
+      document.getElementById('video').style.transform = transforms.join(' ');
     }
   },
   mounted() {
@@ -29,11 +40,22 @@ export default {
           this.transforms.scale = 1;
           break;
       }
-      document.getElementById('video').style.transform = `scale(${this.transforms.scale})`
+      this.applyTransforms()
+    })
+    ipcRenderer.on('flip', () => {
+      this.transforms.flip = !this.transforms.flip
+      this.applyTransforms()
+    })
+    window.addEventListener('keydown', event => {
+      if (event.key === '/') {
+        this.transforms.flip = !this.transforms.flip
+        this.applyTransforms()
+      }
     })
     navigator.mediaDevices.getUserMedia({
       video: true
     }).then((stream) => {
+      this.applyTransforms()
       this.$refs.video.srcObject = stream
     })
   }
