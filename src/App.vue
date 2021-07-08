@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <video ref="video" autoplay muted></video>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  mounted() {
+    navigator.mediaDevices.getUserMedia({
+      video: true
+    }).then((stream)=>{
+      this.$refs.video.srcObject = stream
+    })
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  background: transparent;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+video {
+  object-fit: cover;
+  width: 400px;
+  height: 100vh;
+  background: #fff;
+  /*-webkit-app-region: drag;*/
+}
+
+video {
+  mask-image: url("assets/blob.svg");
+  mask-repeat: no-repeat;
+  mask-size: 400px 400px;
+  mask-position: center;
 }
 </style>
