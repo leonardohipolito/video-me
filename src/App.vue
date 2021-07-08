@@ -12,6 +12,8 @@ export default {
   data() {
     return {
       transforms: {
+        x: 0,
+        y: 0,
         scale: 1,
         flip: true
       }
@@ -21,6 +23,7 @@ export default {
     applyTransforms() {
       let transforms = []
       transforms.push(`scale(${this.transforms.scale})`)
+      transforms.push(`translate(${this.transforms.x}%, ${this.transforms.y}%)`)
       if (this.transforms.flip) {
         transforms.push(`rotateY(180deg)`)
       }
@@ -39,6 +42,23 @@ export default {
         default:
           this.transforms.scale = 1;
           break;
+      }
+      this.applyTransforms()
+    })
+    ipcRenderer.on('move', (event, move_type) => {
+      switch (move_type) {
+        case 'up':
+          this.transforms.y-=1;
+          break
+        case 'down':
+          this.transforms.y+=1;
+          break
+        case 'left':
+          this.transforms.x -= 1;
+          break;
+        case 'right':
+          this.transforms.x += 1;
+          break
       }
       this.applyTransforms()
     })
@@ -83,5 +103,6 @@ video {
   mask-repeat: no-repeat;
   mask-size: 400px 400px;
   mask-position: center;
+  border:10px solid red;
 }
 </style>

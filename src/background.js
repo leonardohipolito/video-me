@@ -71,6 +71,30 @@ async function createWindow() {
             click: () => {
                 win.webContents.send('flip')
             }
+        },{
+            role: 'Up',
+            accelerator: process.platform === 'darwin' ? 'Up' : 'Up',
+            click: () => {
+                win.webContents.send('move','up')
+            }
+        },{
+            role: 'Down',
+            accelerator: process.platform === 'darwin' ? 'Down' : 'Down',
+            click: () => {
+                win.webContents.send('move','down')
+            }
+        },{
+            role: 'Left',
+            accelerator: process.platform === 'darwin' ? 'Left' : 'Left ',
+            click: () => {
+                win.webContents.send('move','left')
+            }
+        },{
+            role: 'Right',
+            accelerator: process.platform === 'darwin' ? 'Right' : 'Right ',
+            click: () => {
+                win.webContents.send('move','right')
+            }
         }]
     }))
 
