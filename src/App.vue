@@ -86,14 +86,22 @@ export default {
 body {
   background: transparent;
   overflow: hidden;
+  background: url("./assets/blob.svg");
+  background-size: cover;
+  background-position: center;
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 video {
   object-fit: cover;
-  width: 400px;
-  height: 100vh;
+  width: 100%;
+  height: auto;
   background: #fff;
   -webkit-app-region: drag;
 }
@@ -101,8 +109,10 @@ video {
 #app {
   mask-image: url("assets/blob.svg");
   mask-repeat: no-repeat;
-  mask-size: 400px 400px;
+  mask-size: 100%;
   mask-position: center;
-  border:10px solid red;
+  width: 98%;
+  height: 98vh;
+  background: #ffffff;
 }
 </style>
